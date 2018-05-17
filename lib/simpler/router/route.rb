@@ -31,10 +31,8 @@ module Simpler
           if element_route_path.include?(':')
             key = element_route_path.delete(':').to_sym
             env['simpler.params'][key] = element_request_path
-
           else
-            result = element_route_path == element_request_path
-            return false unless result
+            element_route_path == element_request_path ? true : (return false)
           end
         end
       end

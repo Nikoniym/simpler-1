@@ -36,8 +36,6 @@ module Simpler
           end
         end
       end
-
-
     end
   end
 end

@@ -7,10 +7,10 @@ class AppLogger
   end
 
   def call(env)
-    status, headers = @app.call(env)
+    status, headers, body = @app.call(env)
     log = message(env, status, headers)
     @logger.info(log)
-    @app.call(env)
+    [status, headers, body]
   end
 
   private

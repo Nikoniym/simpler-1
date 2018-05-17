@@ -48,7 +48,8 @@ module Simpler
     end
 
     def render_body(content_type)
-      View.new(@request.env).render(binding, content_type)
+      renderer = View.render(@request.env)
+      renderer.new(@request.env).render(binding)
     end
 
     def status(code)

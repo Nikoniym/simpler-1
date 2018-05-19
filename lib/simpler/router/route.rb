@@ -17,11 +17,15 @@ module Simpler
         @method == method && path_comparison(path, env)
       end
 
+      def params
+        @params
+      end
+
       private
 
       def path_comparison(path, env)
         path = path.split('?').first  if path.include?('?')
-        env['simpler.params'] = {}
+        @params = {}
         request_path = path.split('/')
         route_path = @path.split('/')
 
@@ -30,7 +34,7 @@ module Simpler
 
           if element_route_path.include?(':')
             key = element_route_path.delete(':').to_sym
-            env['simpler.params'][key] = element_request_path
+            @params[key] = element_request_path
           else
             element_route_path == element_request_path ? true : (return false)
           end

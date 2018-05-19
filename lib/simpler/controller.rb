@@ -29,8 +29,8 @@ module Simpler
 
     private
 
-    def change_header
-      @response['Content-Type'] = 'text/plain'
+    def change_header(template)
+      @response['Content-Type'] = 'text/plain' if template[:plain]
     end
 
     def extract_name
@@ -42,12 +42,12 @@ module Simpler
     end
 
     def write_response
-      body = render_body( @response['Content-Type'])
+      body = render_body
 
       @response.write(body)
     end
 
-    def render_body(content_type)
+    def render_body
       renderer = View.render(@request.env)
       renderer.new(@request.env).render(binding)
     end
@@ -61,11 +61,11 @@ module Simpler
     end
 
     def render(template)
-      if template[:plain]
-        change_header
-        @request.env['simpler.template_plain'] = template[:plain]
-      else
+      if template.is_a?(String)
         @request.env['simpler.template'] = template
+      else
+        change_header(template)
+        @request.env['simpler.template_plain'] = template[:plain] if template[:plain]
       end
     end
   end

@@ -30,6 +30,8 @@ module Simpler
       route = @router.route_for(env)
 
       if route
+        env['simpler.params'] = route.params
+
         controller = route.controller.new(env)
         action = route.action
         make_response(controller, action)
